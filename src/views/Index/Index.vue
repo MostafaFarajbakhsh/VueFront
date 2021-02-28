@@ -52,14 +52,14 @@ small
 </template>
 
 <script>
-import Header from '../Shared/Header';
-export default {
-  name: "HelloWorld",
+  import Header from '../Shared/Header'
+  export default {
+    name: 'HelloWorld',
 
-  components: {
-    
-    Header,
-  },
-  data: () => ({}),
-};
+    components: {
+      
+      Header,
+    },
+    data: () => ({}),
+  }
 </script>
