@@ -24,7 +24,7 @@ export const Routes = [
       // Pages
       {
         name: 'پروفایل کاربری',
-        path: 'pages/user',
+        path: 'profile',
         component: () => import('@/views/dashboard/pages/UserProfile'),
       },
       {
@@ -45,8 +45,8 @@ export const Routes = [
       // Tables
       {
         name: 'Regular Tables',
-        path: 'tables/regular-tables',
-        component: () => import('@/views/dashboard/tables/RegularTables'),
+        path: 'users',
+        component: () => import('@/views/dashboard/tables/UserTables'),
       },
       // Maps
       {

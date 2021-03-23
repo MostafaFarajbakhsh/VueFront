@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <Header/>
+      <Header-Tag />
     <v-main>
       <v-container>
     <v-row class="text-center">
@@ -19,8 +19,9 @@
         </p>
       </v-col>
 
-      <v-col class="mb-5"
-cols="12"
+      <v-col
+        class="mb-5"
+        cols="12"
       >
         <v-row
 align="center"
@@ -28,20 +29,26 @@ justify="space-around"
         >
           <router-link to="/signup">
             <v-btn
-color="primary"
-elevation="3" 
-depressed 
-large 
-rounded 
-small
-              >
-ثبت نام</v-btn
-            ></router-link>
+              color="primary"
+              elevation="3"
+              depressed
+              large
+              rounded
+              small
+            >ثبت نام
+            </v-btn>
+          </router-link>
           <router-link to="/login">
-            <v-btn color="success" elevation="3" depressed large rounded small
-              >ورود</v-btn
-            ></router-link
-          >
+            <v-btn
+            color="success"
+            elevation="3"
+            depressed
+            large
+            rounded
+            small
+              >ورود
+              </v-btn>
+            </router-link>
         </v-row>
       </v-col>
     </v-row>
@@ -57,8 +64,7 @@ small
     name: 'HelloWorld',
 
     components: {
-      
-      Header,
+      'Header-Tag': Header,
     },
     data: () => ({}),
   }

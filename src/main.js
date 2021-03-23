@@ -34,7 +34,7 @@ const options = {
   transition: 'Vue-Toastification__bounce',
   maxToasts: 20,
   newestOnTop: true,
-  position: 'top-right',
+  position: 'bottom-right',
   timeout: 5111,
   closeOnClick: true,
   pauseOnFocusLoss: true,

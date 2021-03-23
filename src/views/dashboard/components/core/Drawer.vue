@@ -111,12 +111,12 @@
         {
           icon: 'mdi-account',
           title: 'user',
-          to: '/dashboard/pages/user',
+          to: '/dashboard/profile',
         },
         {
           title: 'rtables',
           icon: 'mdi-account-group',
-          to: '/dashboard/tables/regular-tables',
+          to: '/dashboard/users',
         },
         {
           title: 'typography',

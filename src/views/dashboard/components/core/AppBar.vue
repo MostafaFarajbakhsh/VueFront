@@ -188,7 +188,7 @@
       Profie: [
         {
           title: 'پروفایل',
-          to: '/dashboard/pages/user',
+          to: '/dashboard/profile',
         },
         {
           title: 'خروج',
