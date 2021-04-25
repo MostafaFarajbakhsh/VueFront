@@ -23,13 +23,14 @@ const mutations = {
 }
 const actions = {
   SignUpUserByForm (context, User) {
+    console.log(User)
     Vue.http.post('Users', User).then(
       response => {
         if (
           response.status === 200 &&
           response.body.Username === User.NationalCode
         ) {
-          this._vm.$toast.success('ثبت نام با موفقیت انجام شد ', {
+          this._vm.$toast.success(' اطلاعات ' + User.FirstName + ' ' + User.LastName + ' با موفقیت ثبت شد ', {
             position: 'bottom-right',
           })
           router.push('/dashboard/users')
@@ -107,6 +108,11 @@ const actions = {
         if (response.status === 200) {
           return response.json()
         }
+        if (response.status === 0) {
+          this._vm.$toast.error('شما به اینترنت دسترسی ندارید', {
+            position: 'bottom-right',
+          })
+        }
       })
       .then(data => {
         context.commit('SetAllUsers', data)
@@ -120,10 +126,11 @@ const actions = {
     .then(data => {
       if (data.Username === UpdateUser.Username) {
         this._vm.$toast.success(
-          'اطلاعات شما با موفقیت ویرایش شد',
+          ' اطلاعات ' + UpdateUser.FirstName + ' ' + UpdateUser.LastName + ' با موفقیت ثبت شد ',
           {
             position: 'bottom-right',
           },
+          router.push('/Dashboard/users'),
         )
       } else {
         this._vm.$toast.error(
@@ -146,6 +153,31 @@ const actions = {
     .then(data => {
       context.commit('SetUser', data)
     })
+  },
+  DeleteUserFromServer (context, user) {
+    console.log(user)
+    Vue.http.delete('Users', user)
+    .then(response => {
+      return response.json()
+    })
+    // .then(data => {
+    //   if (data.Username === DeleteUser.Username) {
+    //     this._vm.$toast.success(
+    //       ' اطلاعات ' + DeleteUser.FirstName + ' ' + DeleteUser.LastName + ' با موفقیت حذف شد ',
+    //       {
+    //         position: 'bottom-right',
+    //       },
+    //       router.push('/Dashboard/users'),
+    //     )
+    //   } else {
+    //     this._vm.$toast.error(
+    //       'اطلاعات شما حذف نشد',
+    //       {
+    //         position: 'bottom-right',
+    //       },
+    //     )
+    //   }
+    // })
   },
 }
 
