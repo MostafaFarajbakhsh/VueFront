@@ -28,9 +28,9 @@ const actions = {
       response => {
         if (
           response.status === 200 &&
-          response.body.Lettername === Letter.NationalCode
+          response.LetterNumber === Letter.LetterNumber
         ) {
-          this._vm.$toast.success(' اطلاعات ' + Letter.FirstName + ' ' + Letter.LastName + ' با موفقیت ثبت شد ', {
+          this._vm.$toast.success(' شماره نامه ' + Letter.LetterNumber + ' با موفقیت ثبت شد ', {
             position: 'bottom-right',
           })
           router.push('/dashboard/Letters')

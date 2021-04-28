@@ -430,7 +430,7 @@
         { text: 'ارسال کننده', value: 'SenderLetter' },
         { text: 'دریافت کننده', value: 'ReciverLetter' },
         { text: 'نوع نامه', value: 'Type' },
-        // { text: 'پیوست', value: 'IsAttach' },
+        { text: 'متن', value: 'Description' },
         // { text: 'رونوشت', value: 'IsCopy' },
         { text: 'آدرس قفسه', value: 'PhysicalAddress' },
         { text: 'فعالیت', value: 'actions' },
@@ -527,7 +527,7 @@
         // Description: this.editedItem.Description,
         // }
         // this.editedItem = pofile
-        this.$store.dispatch('DeleteUserFromServer', this.editedItem)
+        this.$store.dispatch('DeleteLetterFromServer', this.editedItem)
         this.initialize()
         this.closeDelete()
       },
@@ -556,28 +556,25 @@
           Object.assign(this.GetAllLetters[this.editedIndex], this.editedItem)
         } else {
           const pofile = {
-            Password: this.editedItem.Password,
+            LetterNumber: this.editedItem.LetterNumber,
+            IsAttach: this.editedItem.IsAttach,
+            IsCopy: this.editedItem.IsCopy,
+            IsExpirable: this.editedItem.IsExpirable,
+            DateTimeLetter: this.editedItem.DateTimeLetter,
+            InsertDateTime: this.editedItem.InsertDateTime,
+            ExpireDateTime: this.editedItem.ExpireDateTime,
+            Title: this.editedItem.Title,
+            RespectText: this.editedItem.RespectText,
+            PhysicalAddress: this.editedItem.PhysicalAddress,
             IsActive: this.editedItem.IsActive,
-            FirstName: this.editedItem.FirstName,
-            LastName: this.editedItem.LastName,
-            FatherName: this.editedItem.FatherName,
-            Username: this.editedItem.NationalCode,
-            EmailAddress: this.editedItem.EmailAddress,
-            NationalCode: this.editedItem.NationalCode,
-            BirthCertificateId: this.editedItem.BirthCertificateId,
-            BirthDay: this.editedItem.BirthDay,
-            CellPhoneNumber: this.editedItem.CellPhoneNumber,
-            TellNumber: this.editedItem.TellNumber,
-            Job: this.editedItem.Job,
-            PostalCode: this.PostalCode,
             Type: this.editedItem.Type,
             Address: this.editedItem.Address,
             Description: this.editedItem.Description,
           }
           this.editedItem = pofile
-          this.$store.dispatch('SignUpUserByForm', this.editedItem)
+          this.$store.dispatch('SignUpLetterByForm', this.editedItem)
           this.initialize()
-          this.GetAllUsers.push(this.editedItem)
+          this.GetAllLetters.push(this.editedItem)
         }
         this.close()
       },
