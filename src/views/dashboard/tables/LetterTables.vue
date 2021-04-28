@@ -10,13 +10,13 @@
     /> -->
 
     <base-material-card
-      title='مدریت کاربران '
+      title='مدریت نامه ها '
       class='px-2 py-2'
       >
     <template>
   <v-data-table
     :headers="headers"
-    :items="GetAllUsers"
+    :items="GetAllLetters"
     :search='search'
     sort-by="calories"
     class="elevation-1"
@@ -60,9 +60,9 @@
               color="green"
             >
             <v-icon left>
-            mdi-plus
+            mdi-email-plus-outline
             </v-icon>
-              کاربر جدید
+              نامه جدید
             </v-btn>
           </template>
           <v-card>
@@ -79,8 +79,8 @@
                 md="4"
               >
                 <v-text-field
-                  label="نام *"
-                  v-model="editedItem.FirstName"
+                  label="عنوان نامه *"
+                  v-model="editedItem.Title"
                 ></v-text-field>
                   </v-col>
                   <v-col
@@ -89,9 +89,9 @@
                     md="4"
                   >
                     <v-text-field
-                      label="نام خانوادگی*"
-                      v-model="editedItem.LastName"
-                      hint="لطفا نام خانوادگی را وارد کنید"
+                      label="شماره نامه*"
+                      v-model="editedItem.LetterNumber"
+                       hint="لطفا شماره  نامه  را وارد کنید"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -99,10 +99,22 @@
                 sm="6"
                 md="4"
               >
+                <v-select
+                  :items="[
+                  { text: 'ثبت اسناد', value: 1 } , { text: 'اوقاف', value: 2 }, { text: 'احضاریه ', value: 3 }, { text: 'اطلاعیه', value: 4 }, { text: 'بلامانه', value: 5 } ]"
+                  v-model="editedItem.Type"
+                  label="نوع نامه*"
+                ></v-select>
+                  </v-col>
+                  <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
                 <v-text-field
-                  label="*کدملی"
-                  v-model="editedItem.NationalCode"
-                  hint="لطفا کدملی را وارد کنید"
+                  label="*ارسال کننده"
+                  v-model="editedItem.SenderLetter"
+                  hint="لطفا ارسال کننده نامه  را وارد کنید"
                 ></v-text-field>
                   </v-col>
                   <v-col
@@ -111,9 +123,9 @@
                   md="4"
                 >
                   <v-text-field
-                    label="نام پدر"
-                    v-model="editedItem.FatherName"
-                    hint="example of persistent helper text"
+                    label="دریافت کننده"
+                    v-model="editedItem.ReciverLetter"
+                    hint="لطفا دریافت کننده نامه  را وارد کنید"
                   ></v-text-field>
                   </v-col>
                   <v-col
@@ -122,9 +134,9 @@
                     md="4"
                   >
                     <v-text-field
-                      label="شماره شناسنامه"
-                      v-model="editedItem.BirthCertificateId"
-                      hint="لطفا شماره شناسنامه را وارد کنید"
+                      label="متن احترامی"
+                      v-model="editedItem.RespectText"
+                      hint="لطفا متن احتذام را وارد کنید"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -136,15 +148,15 @@
                     ref="menu"
                     v-model="editedItem.menu"
                     :close-on-content-click="false"
-                    :return-value.sync="BirthDay"
+                    :return-value.sync="DateTimeLetter"
                     transition="scale-transition"
                     offset-y
                     min-width="auto"
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="editedItem.BirthDay"
-                        label="تاریخ تولد"
+                        v-model="editedItem.DateTimeLetter"
+                        label="تاریخ نامه"
                         prepend-icon="mdi-calendar"
                         readonly
                         :first-day-of-week="0"
@@ -154,94 +166,84 @@
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      v-model="editedItem.BirthDay"
+                      v-model="editedItem.DateTimeLetter"
                       no-title
                       scrollable
                     >
                       <v-spacer></v-spacer>
                       <v-btn
-                        text
-                        color="primary"
+                        color="error"
                         @click="menu = false"
                       >
-                        Cancel
+                        انصراف
                       </v-btn>
                       <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(editedItem.BirthDay)"
+                        color="success"
+                        @click="$refs.menu.save(editedItem.DateTimeLetter)"
                       >
-                        OK
+                        ثبت
                       </v-btn>
                     </v-date-picker>
                   </v-menu>
                   </v-col>
                    <v-col
-              cols="12"
-                sm="6"
-                md="4"
+                  cols="12"
+                  sm="6"
+                  md="4"
                 >
-                <v-text-field
-                v-model="editedItem.CellPhoneNumber"
-                  label="شماره همراه"
-                ></v-text-field>
-              </v-col>
-               <v-col
-              cols="12"
-                sm="6"
-                md="4"
+                  <v-switch
+               color="blue"
+              v-model="editedItem.IsExpirable"
+              :label="`وضعیت انقضای نامه: ${editedItem.IsExpirable != true}`"
+              ></v-switch>
+                  </v-col>
+                  <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
                 >
-                <v-text-field
-                v-model="editedItem.TellNumber"
-                  label="تلفن ثابت"
-                ></v-text-field>
-              </v-col>
-              <v-col
-              cols="12"
-                sm="6"
-                md="4"
-                >
-                <v-text-field
-                v-model="editedItem.EmailAddress"
-                  label="ایمیل"
-                ></v-text-field>
-              </v-col>
-              <v-col
-              cols="12"
-                sm="6"
-                md="4"
-                >
-                <v-text-field
-                  label="کدپستی"
-                  v-model="editedItem.PostalCode"
-                ></v-text-field>
-              </v-col>
-              <v-col
-              cols="12"
-                sm="6"
-                md="4"
-                >
-                <v-text-field
-                v-model="editedItem.Job"
-                  label="شغل"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                label="گذرواژه*"
-                v-model="editedItem.Password"
-                type="password"
-                :rules="[v => !!v || 'field is required']"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                label="تائید گذرواژه*"
-                v-model="editedItem.confirm_password"
-                type="password"
-                :rules="[(editedItem.Password === editedItem.confirm_password) || 'تکرار گذرواژه باید یکسان باشد']"
-                ></v-text-field>
-              </v-col>
+                  <v-menu
+                    ref="menuexpiretime"
+                    v-model="editedItem.menuexpiretime"
+                    :close-on-content-click="false"
+                    :return-value.sync="ExpireDateTime"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="editedItem.ExpireDateTime"
+                        label="تاریخ انقضای نامه"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        :first-day-of-week="0"
+                        locale="ir-fa"
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="editedItem.ExpireDateTime"
+                      no-title
+                      scrollable
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="error"
+                        @click="menuexpiretime = false"
+                      >
+                        انصراف
+                      </v-btn>
+                      <v-btn
+                        color="success"
+                        @click="$refs.menuexpiretime.save(editedItem.ExpireDateTime)"
+                      >
+                        ثبت
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                  </v-col>
                <v-col
               cols="12"
                 sm="12"
@@ -258,30 +260,49 @@
       >
         <v-textarea
           name="input-7-1"
-          label="توضیحات"
+          label="متن نامه"
           v-model="editedItem.Description"
           value=""
         ></v-textarea>
-      </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
+         <v-col
+              cols="12"
+                sm="12"
+                md="12"
                 >
-                <v-select
-                  :items="[
-                  { text: 'کاربر', value: 0 } , { text: 'کاربر ویژه', value: 100 }, { text: 'مدیر سیستم', value: 500 }, { text: 'برنامه نویس', value: 900 } ]"
-                  v-model="editedItem.Type"
-                  label="نوع کاربر*"
-                ></v-select>
+                <v-text-field
+                  label="آدرس فیزیکی"
+                  v-model="editedItem.PhysicalAddress"
+                ></v-text-field>
+              </v-col>
+      </v-col>
+      <v-col
+                cols="12"
+                sm="4"
+              >
+              <v-switch
+               color="blue"
+              v-model="editedItem.IsAttach"
+              :label="`وضعیت ضمیمه: ${editedItem.IsAttach == false}`"
+              ></v-switch>
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
+                sm="4"
+              >
+              <v-switch
+               color="blue"
+              v-model="editedItem.IsCopy"
+              :label="`وضعیت رونوشت: ${editedItem.IsCopy}`"
+              ></v-switch>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="4"
               >
               <v-switch
                color="blue"
               v-model="editedItem.IsActive"
-              :label="`وضعیت کاربر: ${editedItem.IsActive}`"
+              :label="`وضعیت نامه: ${editedItem.IsActive}`"
               ></v-switch>
               </v-col>
                 </v-row>
@@ -316,7 +337,7 @@
         max-width="500px"
         >
           <v-card>
-            <v-card-title class="headline">آیا از حذف پروفایل {{ editedItem.FullName }} مطمئن هستید؟</v-card-title>
+            <v-card-title class="headline">آیا از حذف نامه {{ editedItem.FullName }} مطمئن هستید؟</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -383,56 +404,54 @@
       dialog: false,
       dialogDelete: false,
       search: '',
-      Password: '',
+      LetterNumber: '',
       IsActive: true,
-      confirm_password: '',
-      FirstName: '',
-      LastName: '',
-      FatherName: '',
-      EmailAddress: '',
-      NationalCode: '',
-      BirthCertificateId: '',
-      BirthDay: new Date().toISOString().substr(0, 10),
-      CellPhoneNumber: '',
-      TellNumber: '',
-      Job: '',
-      PostalCode: '',
-      Type: 0,
+      IsAttach: false,
+      IsCopy: true,
+      IsExpirable: false,
+      DateTimeLetter: new Date().toISOString().substr(0, 10),
+      InsertDateTime: new Date().toISOString().substr(0, 10),
+      ExpireDateTime: new Date().toISOString().substr(0, 10),
+      // ExpireDateTime: this.DateTimeLetter.setMonth(this.DateTimeLetter.getMonth() + 1),
+      Title: '',
+      RespectText: 'با سلام',
+      PhysicalAddress: '',
+      Type: 1,
       Address: '',
       Description: '',
       menu: false,
+      menuexpiretime: false,
       modal: false,
       menu2: false,
       headers: [
         { text: 'ردیف', value: 'radif' },
-        { text: 'نام', value: 'FirstName' },
-        { text: 'نام خانوادگی', value: 'LastName' },
-        { text: 'کد ملی', value: 'NationalCode' },
-        { text: 'همراه', value: 'CellPhoneNumber' },
-        { text: 'شماره شناسنامه', value: 'BirthCertificateIdCard' },
-        { text: 'تاریخ تولد', value: 'BirthDay' },
-        { text: 'نوع کاربری', value: 'Type' },
+        { text: 'عنوان', value: 'Title' },
+        { text: 'شماره نامه', value: 'LetterNumber' },
+        { text: 'ارسال کننده', value: 'SenderLetter' },
+        { text: 'دریافت کننده', value: 'ReciverLetter' },
+        { text: 'نوع نامه', value: 'Type' },
+        // { text: 'پیوست', value: 'IsAttach' },
+        // { text: 'رونوشت', value: 'IsCopy' },
+        { text: 'آدرس قفسه', value: 'PhysicalAddress' },
         { text: 'فعالیت', value: 'actions' },
       ],
       editedIndex: -1,
       editedItem: {
-        Password: '',
+        LetterNumber: '',
         IsActive: true,
-        confirm_password: '',
-        FirstName: '',
-        LastName: '',
-        FatherName: '',
-        EmailAddress: '',
-        NationalCode: '',
-        BirthCertificateId: '',
-        BirthDay: '',
-        CellPhoneNumber: '',
-        TellNumber: '',
-        Job: '',
-        PostalCode: '',
-        Type: 0,
+        IsAttach: false,
+        IsCopy: true,
+        IsExpirable: false,
+        DateTimeLetter: new Date().toISOString().substr(0, 10),
+        InsertDateTime: new Date().toISOString().substr(0, 10),
+        // ExpireDateTime: this.DateTimeLetter.setMonth(this.DateTimeLetter.getMonth() + 1),
+        Title: '',
+        RespectText: 'با سلام',
+        PhysicalAddress: '',
+        Type: 1,
         Address: '',
         Description: '',
+        menu: false,
       },
       defaultItem: {
         name: '',
@@ -445,10 +464,10 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'کاربر جدید' : 'ویرایش کاربر'
+        return this.editedIndex === -1 ? 'نامه جدید' : 'ویرایش نامه'
       },
-      GetAllUsers () {
-        return this.$store.getters.GetAllUsers
+      GetAllLetters () {
+        return this.$store.getters.GetAllLetters
       },
     },
 
@@ -467,26 +486,26 @@
 
     methods: {
       initialize () {
-        this.$store.dispatch('GetAllUsersFromServer')
+        this.$store.dispatch('GetAllLettersFromServer')
       },
 
       editItem (item) {
-        const result = this.GetAllUsers.find(s => {
-          return s.NationalCode === item.NationalCode
+        const result = this.GetAllLetters.find(s => {
+          return s.Id === item.Id
         })
-        this.editedIndex = this.GetAllUsers.indexOf(item)
+        this.editedIndex = this.GetAllLetters.indexOf(item)
         this.editedItem = Object.assign({}, result)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.GetAllUsers.indexOf(item)
+        this.editedIndex = this.GetAllLetters.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.GetAllUsers.splice(this.editedIndex, 1)
+        this.GetAllLetters.splice(this.editedIndex, 1)
         // const pofile = {
         // Password: this.editedItem.Password,
         // IsActive: this.editedItem.IsActive,
@@ -532,9 +551,9 @@
 
       save () {
         if (this.editedIndex > -1) {
-          this.$store.dispatch('UpdateUserFromServer', this.editedItem)
+          this.$store.dispatch('UpdateLetterFromServer', this.editedItem)
           this.initialize()
-          Object.assign(this.GetAllUsers[this.editedIndex], this.editedItem)
+          Object.assign(this.GetAllLetters[this.editedIndex], this.editedItem)
         } else {
           const pofile = {
             Password: this.editedItem.Password,

@@ -114,9 +114,14 @@
           to: '/dashboard/profile',
         },
         {
-          title: 'rtables',
+          title: 'rtablesuser',
           icon: 'mdi-account-group',
           to: '/dashboard/users',
+        },
+        {
+          title: 'rtablesletter',
+          icon: 'mdi-email',
+          to: '/dashboard/letters',
         },
         {
           title: 'typography',

@@ -42,11 +42,17 @@ export const Routes = [
         path: 'components/typography',
         component: () => import('@/views/dashboard/component/Typography'),
       },
-      // Tables
+      // Tables Users
       {
-        name: 'Regular Tables',
+        name: 'مدیریت کاربران',
         path: 'users',
         component: () => import('@/views/dashboard/tables/UserTables'),
+      },
+      // Tables Letters
+      {
+        name: 'مدیریت نامه ها',
+        path: 'letters',
+        component: () => import('@/views/dashboard/tables/LetterTables'),
       },
       // Maps
       {

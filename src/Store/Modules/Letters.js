@@ -2,38 +2,38 @@ import Vue from 'vue'
 import { router } from '../../main'
 
 const state = {
-  Users: [],
-  User: {},
+  Letters: [],
+  Letter: {},
 }
 const getters = {
-  GetAllUsers (state) {
-    return state.Users
+  GetAllLetters (state) {
+    return state.Letters
   },
-  GetUser (state) {
-    return state.User
+  GetLetter (state) {
+    return state.Letter
   },
 }
 const mutations = {
-  SetAllUsers (state, Users) {
-    state.Users = Users
+  SetAllLetters (state, Letters) {
+    state.Letters = Letters
   },
-  SetUser (state, user) {
-    state.User = user
+  SetLetter (state, Letter) {
+    state.Letter = Letter
   },
 }
 const actions = {
-  SignUpUserByForm (context, User) {
-    console.log(User)
-    Vue.http.post('Users', User).then(
+  SignUpLetterByForm (context, Letter) {
+    console.log(Letter)
+    Vue.http.post('Letters', Letter).then(
       response => {
         if (
           response.status === 200 &&
-          response.body.Username === User.NationalCode
+          response.body.Lettername === Letter.NationalCode
         ) {
-          this._vm.$toast.success(' اطلاعات ' + User.FirstName + ' ' + User.LastName + ' با موفقیت ثبت شد ', {
+          this._vm.$toast.success(' اطلاعات ' + Letter.FirstName + ' ' + Letter.LastName + ' با موفقیت ثبت شد ', {
             position: 'bottom-right',
           })
-          router.push('/dashboard/users')
+          router.push('/dashboard/Letters')
         } else {
           this._vm.$toast.error(response.body, {
             position: 'bottom-right',
@@ -45,15 +45,15 @@ const actions = {
       },
     )
   },
-  LoginByForm (context, User) {
+  LoginByForm (context, Letter) {
     Vue.http
-      .post('Users/Login', User)
+      .post('Letters/Login', Letter)
       // .then(response => {
       //   if (
       //     response.status === 200 &&
-      //     response.body.Username === User.UserName
+      //     response.body.Lettername === Letter.LetterName
       //   ) {
-      //     // context.commit('SetUser', response.body)
+      //     // context.commit('SetLetter', response.body)
       //     if (response.body.Type === 900) {
       //       this._vm.$toast.success(
       //         'شما به عنوان برنامه نویس وارد سیستم شدید',
@@ -78,8 +78,8 @@ const actions = {
         return response.json()
       })
       .then(data => {
-        if (data.Username === User.UserName) {
-          context.commit('SetUser', data)
+        if (data.Lettername === Letter.LetterName) {
+          context.commit('SetLetter', data)
           console.log(data)
           if (data.Type === 900) {
             this._vm.$toast.success(
@@ -101,9 +101,9 @@ const actions = {
         }
       })
   },
-  GetAllUsersFromServer (context) {
+  GetAllLettersFromServer (context) {
     Vue.http
-      .get('Users')
+      .get('Letters')
       .then(response => {
         if (response.status === 200) {
           return response.json()
@@ -115,26 +115,27 @@ const actions = {
         }
       })
       .then(data => {
-        context.commit('SetAllUsers', data)
+        context.commit('SetAllLetters', data)
       })
   },
-  UpdateUserFromServer (Context, UpdateUser) {
-    Vue.http.patch('Users', UpdateUser)
+  UpdateLetterFromServer (Context, UpdateLetter) {
+    console.log(UpdateLetter)
+    Vue.http.patch('Letters', UpdateLetter)
     .then(response => {
       return response.json()
     })
     .then(data => {
-      if (data.Username === UpdateUser.Username) {
+      if (data.Id === UpdateLetter.Id) {
         this._vm.$toast.success(
-          ' اطلاعات ' + UpdateUser.FirstName + ' ' + UpdateUser.LastName + ' با موفقیت ثبت شد ',
+          'اطلاعات شماره نامه' + UpdateLetter.LetterNumber + ' با موفقیت ثبت شد ',
           {
             position: 'bottom-right',
           },
-          router.push('/Dashboard/users'),
+          router.push('/Dashboard/Letters'),
         )
       } else {
         this._vm.$toast.error(
-          'اطلاعات شما ویرایش نشد',
+          data,
           {
             position: 'bottom-right',
           },
@@ -142,32 +143,32 @@ const actions = {
       }
     })
   },
-  GetUserFromServer (context, Username) {
+  GetLetterFromServer (context, Lettername) {
     Vue.http
-    .get('Users/GetUser', Username)
+    .get('Letters/GetLetter', Lettername)
     .then(response => {
       if (response.status === 200) {
         return response.json()
       }
     })
     .then(data => {
-      context.commit('SetUser', data)
+      context.commit('SetLetter', data)
     })
   },
-  DeleteUserFromServer (context, user) {
-    console.log(user.Id)
-    Vue.http.delete('Users/' + user.Id)
+  DeleteLetterFromServer (context, Letter) {
+    console.log(Letter.Id)
+    Vue.http.delete('Letters/' + Letter.Id)
     .then(response => {
       return response.json()
     })
     // .then(data => {
-    //   if (data.Username === DeleteUser.Username) {
+    //   if (data.Lettername === DeleteLetter.Lettername) {
     //     this._vm.$toast.success(
-    //       ' اطلاعات ' + DeleteUser.FirstName + ' ' + DeleteUser.LastName + ' با موفقیت حذف شد ',
+    //       ' اطلاعات ' + DeleteLetter.FirstName + ' ' + DeleteLetter.LastName + ' با موفقیت حذف شد ',
     //       {
     //         position: 'bottom-right',
     //       },
-    //       router.push('/Dashboard/users'),
+    //       router.push('/Dashboard/Letters'),
     //     )
     //   } else {
     //     this._vm.$toast.error(
