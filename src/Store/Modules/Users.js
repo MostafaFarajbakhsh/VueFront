@@ -18,88 +18,76 @@ const mutations = {
     state.Users = Users
   },
   SetUser (state, user) {
-    state.User = user
+    state.User = user.Data
   },
 }
 const actions = {
   SignUpUserByForm (context, User) {
-    console.log(User)
-    Vue.http.post('Users', User).then(
-      response => {
-        if (
-          response.status === 200 &&
-          response.body.Username === User.NationalCode
-        ) {
-          this._vm.$toast.success(' اطلاعات ' + User.FirstName + ' ' + User.LastName + ' با موفقیت ثبت شد ', {
+    Vue.http.post('Users', User)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+    if (data.IsSuccessful === true) {
+      if (data.InformationMessages !== null) {
+        data.InformationMessages.forEach(element => {
+          this._vm.$toast.success(
+            element,
+            {
+              position: 'bottom-right',
+            },
+          )
+        })
+      }
+      router.push('/dashboard/users')
+    } else {
+      if (data.ErrorMessages !== null) {
+        data.ErrorMessages.forEach(element => {
+          this._vm.$toast.error(element, {
             position: 'bottom-right',
           })
-          router.push('/dashboard/users')
-        } else {
-          this._vm.$toast.error(response.body, {
+        })
+      }
+      if (data.AddInformationMessage !== null) {
+        data.AddInformationMessage.forEach(element => {
+          this._vm.$toast.warning(element, {
             position: 'bottom-right',
           })
-        }
-      },
-      data => {
-        console.log(data)
-      },
-    )
+        })
+      }
+    }
+  })
   },
   LoginByForm (context, User) {
     Vue.http
       .post('Users/Login', User)
-      // .then(response => {
-      //   if (
-      //     response.status === 200 &&
-      //     response.body.Username === User.UserName
-      //   ) {
-      //     // context.commit('SetUser', response.body)
-      //     if (response.body.Type === 900) {
-      //       this._vm.$toast.success(
-      //         'شما به عنوان برنامه نویس وارد سیستم شدید',
-      //         {
-      //           position: 'bottom-right',
-      //         },
-      //       )
-      //     } else {
-      //       this._vm.$toast.success('شما به عنوان مدیر وارد سیستم شدید', {
-      //         position: 'bottom-right',
-      //       })
-      //     }
-      //     router.push('/Dashboard')
-      //   } else {
-      //     this._vm.$toast.error(response.body, {
-      //       position: 'bottom-right',
-      //     })
-      //   }
-      // },
-      // )
       .then(response => {
         return response.json()
       })
       .then(data => {
-        if (data.Username === User.UserName) {
-          context.commit('SetUser', data)
-          console.log(data)
-          if (data.Type === 900) {
+        context.commit('SetUser', data)
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
             this._vm.$toast.success(
-                  'شما به عنوان برنامه نویس وارد سیستم شدید',
-                  {
-                    position: 'bottom-right',
-                  },
-                )
-          } else {
-                  this._vm.$toast.success('شما به عنوان مدیر وارد سیستم شدید', {
-                    position: 'bottom-right',
-                  })
-                }
-                router.push('/Dashboard')
-        } else {
-          this._vm.$toast.error(data, {
-                  position: 'bottom-right',
-                })
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
         }
-      })
+        router.push('/dashboard')
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+      }
+    })
   },
   GetAllUsersFromServer (context) {
     Vue.http
@@ -124,21 +112,26 @@ const actions = {
       return response.json()
     })
     .then(data => {
-      if (data.Username === UpdateUser.Username) {
-        this._vm.$toast.success(
-          ' اطلاعات ' + UpdateUser.FirstName + ' ' + UpdateUser.LastName + ' با موفقیت ثبت شد ',
-          {
-            position: 'bottom-right',
-          },
-          router.push('/Dashboard/users'),
-        )
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
+        }
+        router.push('/dashboard/users')
       } else {
-        this._vm.$toast.error(
-          'اطلاعات شما ویرایش نشد',
-          {
-            position: 'bottom-right',
-          },
-        )
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
       }
     })
   },
@@ -155,29 +148,68 @@ const actions = {
     })
   },
   DeleteUserFromServer (context, user) {
-    console.log(user.Id)
     Vue.http.delete('Users/' + user.Id)
     .then(response => {
       return response.json()
     })
-    // .then(data => {
-    //   if (data.Username === DeleteUser.Username) {
-    //     this._vm.$toast.success(
-    //       ' اطلاعات ' + DeleteUser.FirstName + ' ' + DeleteUser.LastName + ' با موفقیت حذف شد ',
-    //       {
-    //         position: 'bottom-right',
-    //       },
-    //       router.push('/Dashboard/users'),
-    //     )
-    //   } else {
-    //     this._vm.$toast.error(
-    //       'اطلاعات شما حذف نشد',
-    //       {
-    //         position: 'bottom-right',
-    //       },
-    //     )
-    //   }
-    // })
+    .then(data => {
+    if (data.IsSuccessful === true) {
+      if (data.InformationMessages !== null) {
+        data.InformationMessages.forEach(element => {
+          this._vm.$toast.success(
+            element,
+            {
+              position: 'bottom-right',
+            },
+          )
+        })
+      }
+      router.push('/dashboard/users')
+    } else {
+      if (data.ErrorMessages !== null) {
+        data.ErrorMessages.forEach(element => {
+          this._vm.$toast.error(element, {
+            position: 'bottom-right',
+          })
+        })
+      }
+    }
+  })
+  },
+  OpenUserFolderFromServer (context, User) {
+    Vue.http.post('Users/OpenFolder', User)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
+        }
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+      }
+    })
   },
 }
 

@@ -14,9 +14,13 @@
       </v-col>
 
       <v-col class="mb-4">
-        <p class="display-1 font-weight-bold mb-3">
-          موقوفه حاج سید رضا سفیداری
-        </p>
+        <router-link
+        to='/'
+        >
+          <p class="display-1 font-weight-bold mb-3">
+            موقوفه حاج سید رضا سفیداری
+          </p>
+        </router-link>
       </v-col>
 
       <v-col

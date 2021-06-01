@@ -54,8 +54,8 @@ Vue.use(VueResource)
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 
-// Vue.http.options.root = 'http://localhost:5086/'
-Vue.http.options.root = 'http://localhost/'
+Vue.http.options.root = 'http://localhost:5086/'
+// Vue.http.options.root = 'http://localhost/'
 
 export const router = new VueRouter({
   routes: Routes,

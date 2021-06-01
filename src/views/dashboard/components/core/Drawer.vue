@@ -124,6 +124,16 @@
           to: '/dashboard/letters',
         },
         {
+          title: 'rtablesfolder',
+          icon: 'mdi-folder-account',
+          to: '/dashboard/folders',
+        },
+        {
+          title: 'rtablespart',
+          icon: 'mdi-home-city',
+          to: '/dashboard/parts',
+        },
+        {
           title: 'typography',
           icon: 'mdi-format-font',
           to: '/dashboard/components/typography',

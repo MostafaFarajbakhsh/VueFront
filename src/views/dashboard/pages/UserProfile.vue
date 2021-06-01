@@ -165,14 +165,15 @@
                 </v-col>
                  <v-col
                   cols="12"
-                  md="4"
+                  sm="6"
                 >
-                  <v-text-field
-                    class="purple-input"
-                    label="نقش کاربری"
-                    v-model="GetAcountUser.Type"
-                  />
-                </v-col>
+                <v-select
+                  :items="[
+                  { text: 'کاربر', value: 0 } , { text: 'کاربر ویژه', value: 100 }, { text: 'مدیر سیستم', value: 500 }, { text: 'برنامه نویس', value: 900 } ]"
+                  v-model="GetAcountUser.Type"
+                  label="نوع کاربر*"
+                ></v-select>
+              </v-col>
                 <v-col cols="12">
                   <v-text-field
                     label="آدرس"
@@ -285,7 +286,7 @@
           TellNumber: this.GetAcountUser.TellNumber,
           Job: this.GetAcountUser.Job,
           PostalCode: this.GetAcountUser.PostalCode,
-          // Type: this.Type,
+          Type: this.GetAcountUser.Type,
           Address: this.GetAcountUser.Address,
           Description: this.GetAcountUser.Description,
         }

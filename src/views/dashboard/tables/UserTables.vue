@@ -362,6 +362,17 @@
         mdi-delete
       </v-icon>
     </v-btn>
+    <v-btn
+      class="mx-2"
+      fab
+      small
+      @click="OpenUserFolderItem(item)"
+      color="success"
+    >
+      <v-icon dark>
+        mdi-open-in-app
+      </v-icon>
+    </v-btn>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -478,7 +489,9 @@
         this.editedItem = Object.assign({}, result)
         this.dialog = true
       },
-
+      OpenUserFolderItem (item) {
+        this.$store.dispatch('OpenUserFolderFromServer', item)
+      },
       deleteItem (item) {
         this.editedIndex = this.GetAllUsers.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -487,27 +500,6 @@
 
       deleteItemConfirm () {
         this.GetAllUsers.splice(this.editedIndex, 1)
-        // const pofile = {
-        // Password: this.editedItem.Password,
-        // IsActive: this.editedItem.IsActive,
-        // Id: this.Id,
-        // FirstName: this.editedItem.FirstName,
-        // LastName: this.editedItem.LastName,
-        // FatherName: this.editedItem.FatherName,
-        // Username: this.editedItem.NationalCode,
-        // EmailAddress: this.editedItem.EmailAddress,
-        // NationalCode: this.editedItem.NationalCode,
-        // BirthCertificateId: this.editedItem.BirthCertificateId,
-        // BirthDay: this.editedItem.BirthDay,
-        // CellPhoneNumber: this.editedItem.CellPhoneNumber,
-        // TellNumber: this.editedItem.TellNumber,
-        // Job: this.editedItem.Job,
-        // PostalCode: this.PostalCode,
-        // Type: this.editedItem.Type,
-        // Address: this.editedItem.Address,
-        // Description: this.editedItem.Description,
-        // }
-        // this.editedItem = pofile
         this.$store.dispatch('DeleteUserFromServer', this.editedItem)
         this.initialize()
         this.closeDelete()

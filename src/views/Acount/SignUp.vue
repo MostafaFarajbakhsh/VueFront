@@ -161,8 +161,6 @@
           FirstName: this.firstname,
         }
         this.$store.dispatch('SignUpUserByForm', User)
-        // console.log(User)
-        // this.$store.dispatch('SignUpUserByForm', User)
         this.$v.$touch()
       },
       clear () {

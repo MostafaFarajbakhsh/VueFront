@@ -2,28 +2,28 @@ import Vue from 'vue'
 import { router } from '../../main'
 
 const state = {
-  Letters: [],
-  Letter: {},
+  Folders: [],
+  Folder: {},
 }
 const getters = {
-  GetAllLetters (state) {
-    return state.Letters
+  GetAllFolders (state) {
+    return state.Folders
   },
-  GetLetter (state) {
-    return state.Letter
+  GetFolder (state) {
+    return state.Folder
   },
 }
 const mutations = {
-  SetAllLetters (state, Letters) {
-    state.Letters = Letters
+  SetAllFolders (state, Folders) {
+    state.Folders = Folders
   },
-  SetLetter (state, Letter) {
-    state.Letter = Letter
+  SetFolder (state, Folder) {
+    state.Folder = Folder.Data
   },
 }
 const actions = {
-  CreateLetterByForm (context, Letter) {
-    Vue.http.post('Letters', Letter)
+  CreateFolderByForm (context, Folder) {
+    Vue.http.post('Folders', Folder)
     .then(response => {
       return response.json()
     })
@@ -39,6 +39,82 @@ const actions = {
             )
           })
         }
+        router.push('/Dashboard/Folders')
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+      }
+    })
+  },
+  GetAllFoldersFromServer (context) {
+    Vue.http.get('Folders')
+      .then(response => {
+        if (response.status === 200) {
+          return response.json()
+        }
+        if (response.status === 0) {
+          this._vm.$toast.error('شما به اینترنت دسترسی ندارید', {
+            position: 'bottom-right',
+          })
+        }
+      })
+      .then(data => {
+        context.commit('SetAllFolders', data)
+      })
+  },
+  UpdateFolderFromServer (Context, UpdateFolder) {
+    Vue.http.patch('Folders', UpdateFolder)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
+        }
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+      }
+    })
+  },
+  GetFolderFromServer (context, Id) {
+    Vue.http.get('Folders/' + Id.Id)
+    .then(response => {
+      if (response.status === 200) {
+        return response.json()
+      }
+    })
+    .then(data => {
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
+        }
+        context.commit('SetFolder', data)
       } else {
         if (data.ErrorMessages !== null) {
           data.ErrorMessages.forEach(element => {
@@ -57,25 +133,8 @@ const actions = {
       }
     })
   },
-  GetAllLettersFromServer (context) {
-    Vue.http
-      .get('Letters')
-      .then(response => {
-        if (response.status === 200) {
-          return response.json()
-        }
-        if (response.status === 0) {
-          this._vm.$toast.error('شما به اینترنت دسترسی ندارید', {
-            position: 'bottom-right',
-          })
-        }
-      })
-      .then(data => {
-        context.commit('SetAllLetters', data)
-      })
-  },
-  UpdateLetterFromServer (Context, UpdateLetter) {
-    Vue.http.patch('Letters', UpdateLetter)
+  DeleteFolderFromServer (context, Id) {
+    Vue.http.delete('Folders/' + Id)
     .then(response => {
       return response.json()
     })
@@ -91,7 +150,7 @@ const actions = {
             )
           })
         }
-        router.push('/Dashboard/letters')
+        router.push('/dashboard/folders')
       } else {
         if (data.ErrorMessages !== null) {
           data.ErrorMessages.forEach(element => {
@@ -100,43 +159,9 @@ const actions = {
             })
           })
         }
-      }
-    })
-  },
-  GetLetterFromServer (context, Lettername) {
-    Vue.http
-    .get('Letters/GetLetter', Lettername)
-    .then(response => {
-      if (response.status === 200) {
-        return response.json()
-      }
-    })
-    .then(data => {
-      context.commit('SetLetter', data)
-    })
-  },
-  DeleteLetterFromServer (context, Id) {
-    Vue.http.post('Letters/' + Id)
-    .then(response => {
-      return response.json()
-    })
-    .then(data => {
-      if (data.IsSuccessful === true) {
-        if (data.InformationMessages !== null) {
-          data.InformationMessages.forEach(element => {
-            this._vm.$toast.success(
-              element,
-              {
-                position: 'bottom-right',
-              },
-            )
-          })
-        }
-        router.push('/Dashboard/letters')
-      } else {
-        if (data.ErrorMessages !== null) {
-          data.ErrorMessages.forEach(element => {
-            this._vm.$toast.error(element, {
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
               position: 'bottom-right',
             })
           })
@@ -144,8 +169,8 @@ const actions = {
       }
     })
   },
-  OpenLetterFromServer (context, Letter) {
-    Vue.http.post('Letters/OpenFolder', Letter)
+  OpenFolderFromServer (context, Folder) {
+    Vue.http.post('Folders/OpenFolder', Folder)
     .then(response => {
       return response.json()
     })

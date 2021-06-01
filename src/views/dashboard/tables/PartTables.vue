@@ -5,12 +5,12 @@
     tag='section'
   >
     <!-- <base-v-component
-    heading='مدیریت کاربران'
+    heading='مدیریت پوشه ها'
     link='components/simple-tables'
     /> -->
 
     <base-material-card
-      title='مدریت نامه ها '
+      title='مدریت قطعات زمین '
       class='px-2 py-2'
       >
     <template>
@@ -60,9 +60,9 @@
               color="green"
             >
             <v-icon left>
-            mdi-email-plus-outline
+            mdi-home-plus
             </v-icon>
-              نامه جدید
+              قطعه جدید
             </v-btn>
           </template>
           <v-card>
@@ -395,17 +395,6 @@
         mdi-delete
       </v-icon>
     </v-btn>
-    <v-btn
-      class="mx-2"
-      fab
-      small
-      @click="OpenLetterItem(item)"
-      color="success"
-    >
-      <v-icon dark>
-        mdi-open-in-app
-      </v-icon>
-    </v-btn>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -527,9 +516,7 @@
         this.editedItem = Object.assign({}, result)
         this.dialog = true
       },
-      OpenLetterItem (item) {
-        this.$store.dispatch('OpenLetterFromServer', item)
-      },
+
       deleteItem (item) {
         this.editedIndex = this.GetAllLetters.indexOf(item)
         this.editedItem = Object.assign({}, item)

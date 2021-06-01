@@ -54,6 +54,31 @@ export const Routes = [
         path: 'letters',
         component: () => import('@/views/dashboard/tables/LetterTables'),
       },
+      // Tables Folders
+      {
+        name: 'مدیریت پرونده ها',
+        path: 'folders',
+        component: () => import('@/views/dashboard/tables/FolderTables'),
+        // children: [
+        //   {
+        //     name: 'مدیریت پرونده',
+        //     path: 'folder/:Id',
+        //     component: () => import('@/views/dashboard/pages/Folder/Folder'),
+        //   },
+        // ],
+      },
+      // Tables Folders
+      {
+        name: 'مدیریت پرونده',
+        path: 'folders/folder/:Id',
+        component: () => import('@/views/dashboard/pages/Folder/Folder'),
+      },
+      // Tables Parts
+      {
+        name: 'مدیریت قطعات زمین',
+        path: 'parts',
+        component: () => import('@/views/dashboard/tables/PartTables'),
+      },
       // Maps
       {
         name: 'Google Maps',
