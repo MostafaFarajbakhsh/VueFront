@@ -20,6 +20,8 @@
     :search='search'
     sort-by="calories"
     class="elevation-1"
+    :loading = !GetAllUsers.length
+    loading-text="در حال بارگذاری..."
   >
    <template
          slot="item.radif"

@@ -134,6 +134,11 @@
           to: '/dashboard/parts',
         },
         {
+          title: 'rtablesoghafcost',
+          icon: 'mdi-wallet',
+          to: '/dashboard/oghafcosts',
+        },
+        {
           title: 'typography',
           icon: 'mdi-format-font',
           to: '/dashboard/components/typography',

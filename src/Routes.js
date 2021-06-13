@@ -73,6 +73,11 @@ export const Routes = [
         path: 'folders/folder/:Id',
         component: () => import('@/views/dashboard/pages/Folder/Folder'),
       },
+      {
+        name: 'مدیریت تعرفه اوقاف',
+        path: 'oghafcosts',
+        component: () => import('@/views/dashboard/tables/OghafCostTables'),
+      },
       // Tables Parts
       {
         name: 'مدیریت قطعات زمین',

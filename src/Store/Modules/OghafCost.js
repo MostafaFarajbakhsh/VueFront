@@ -2,70 +2,32 @@ import Vue from 'vue'
 import { router } from '../../main'
 
 const state = {
-  Users: [],
-  User: {},
+  OghafCosts: [],
+  OghafCost: {},
 }
 const getters = {
-  GetAllUsers (state) {
-    return state.Users
+  GetAllOghafCosts (state) {
+    return state.OghafCosts
   },
-  GetUser (state) {
-    return state.User
+  GetOghafCost (state) {
+    return state.OghafCost
   },
 }
 const mutations = {
-  SetAllUsers (state, Users) {
-    state.Users = Users
+  SetAllOghafCosts (state, OghafCosts) {
+    state.OghafCosts = OghafCosts
   },
-  SetUser (state, user) {
-    state.User = user.Data
+  SetOghafCost (state, OghafCost) {
+    state.OghafCost = OghafCost
   },
 }
 const actions = {
-  SignUpUserByForm (context, User) {
-    Vue.http.post('Users', User)
+  CreateOghafCostByForm (context, OghafCost) {
+    Vue.http.post('OghafCost', OghafCost)
     .then(response => {
       return response.json()
     })
     .then(data => {
-    if (data.IsSuccessful === true) {
-      if (data.InformationMessages !== null) {
-        data.InformationMessages.forEach(element => {
-          this._vm.$toast.success(
-            element,
-            {
-              position: 'bottom-right',
-            },
-          )
-        })
-      }
-      router.push('/dashboard/users')
-    } else {
-      if (data.ErrorMessages !== null) {
-        data.ErrorMessages.forEach(element => {
-          this._vm.$toast.error(element, {
-            position: 'bottom-right',
-          })
-        })
-      }
-      if (data.AddInformationMessage !== null) {
-        data.AddInformationMessage.forEach(element => {
-          this._vm.$toast.warning(element, {
-            position: 'bottom-right',
-          })
-        })
-      }
-    }
-  })
-  },
-  LoginByForm (context, User) {
-    Vue.http
-      .post('Users/Login', User)
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        context.commit('SetUser', data)
       if (data.IsSuccessful === true) {
         if (data.InformationMessages !== null) {
           data.InformationMessages.forEach(element => {
@@ -77,7 +39,6 @@ const actions = {
             )
           })
         }
-        router.push('/dashboard')
       } else {
         if (data.ErrorMessages !== null) {
           data.ErrorMessages.forEach(element => {
@@ -86,12 +47,19 @@ const actions = {
             })
           })
         }
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
       }
     })
   },
-  GetAllUsersFromServer (context) {
+  GetAllOghafCostsFromServer (context) {
     Vue.http
-      .get('Users')
+      .get('OghafCost')
       .then(response => {
         if (response.status === 200) {
           return response.json()
@@ -103,15 +71,17 @@ const actions = {
         }
       })
       .then(data => {
-        context.commit('SetAllUsers', data)
+        context.commit('SetAllOghafCosts', data)
       })
   },
-  UpdateUserFromServer (Context, UpdateUser) {
-    Vue.http.patch('Users', UpdateUser)
+  UpdateOghafCostFromServer (Context, UpdateOghafCost) {
+    console.log(UpdateOghafCost)
+    Vue.http.patch('OghafCost', UpdateOghafCost)
     .then(response => {
       return response.json()
     })
     .then(data => {
+      console.log(data)
       if (data.IsSuccessful === true) {
         if (data.InformationMessages !== null) {
           data.InformationMessages.forEach(element => {
@@ -131,52 +101,59 @@ const actions = {
             })
           })
         }
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
       }
     })
   },
-  GetUserFromServer (context, Username) {
+  GetOghafCostFromServer (context, OghafCostname) {
     Vue.http
-    .get('Users/GetUser', Username)
+    .get('OghafCosts/GetOghafCost', OghafCostname)
     .then(response => {
       if (response.status === 200) {
         return response.json()
       }
     })
     .then(data => {
-      context.commit('SetUser', data)
+      context.commit('SetOghafCost', data)
     })
   },
-  DeleteUserFromServer (context, user) {
-    Vue.http.delete('Users/' + user.Id)
+  DeleteOghafCostFromServer (context, Id) {
+    Vue.http.post('OghafCosts/' + Id)
     .then(response => {
       return response.json()
     })
     .then(data => {
-    if (data.IsSuccessful === true) {
-      if (data.InformationMessages !== null) {
-        data.InformationMessages.forEach(element => {
-          this._vm.$toast.success(
-            element,
-            {
-              position: 'bottom-right',
-            },
-          )
-        })
-      }
-      router.push('/dashboard/users')
-    } else {
-      if (data.ErrorMessages !== null) {
-        data.ErrorMessages.forEach(element => {
-          this._vm.$toast.error(element, {
-            position: 'bottom-right',
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
           })
-        })
+        }
+        router.push('/Dashboard/OghafCosts')
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
       }
-    }
-  })
+    })
   },
-  OpenUserFolderFromServer (context, User) {
-    Vue.http.post('Users/OpenFolder', User)
+  OpenOghafCostFromServer (context, OghafCost) {
+    Vue.http.post('OghafCosts/OpenFolder', OghafCost)
     .then(response => {
       return response.json()
     })

@@ -10,17 +10,17 @@
     /> -->
 
     <base-material-card
-      title='مدریت پرونده ها '
+      title='مدریت تعرفه اوقاف '
       class='px-2 py-2'
       >
     <template>
   <v-data-table
     :headers="headers"
-    :items="GetAllFolders"
+    :items="GetAllOghafCosts"
     :search='search'
     sort-by="calories"
     class="elevation-1"
-    :loading = !GetAllFolders.length
+    :loading = !GetAllOghafCosts.length
     loading-text="در حال بارگذاری..."
   >
    <template
@@ -62,9 +62,9 @@
               color="green"
             >
             <v-icon left>
-            mdi-folder-plus
+            mdi-wallet-plus
             </v-icon>
-              تشکیل پرونده
+              تعرفه جدید
             </v-btn>
           </template>
           <v-card>
@@ -81,7 +81,7 @@
                 md="4"
               >
                 <v-text-field
-                  label="عنوان پوشه *"
+                  label="عنوان تعرفه *"
                   v-model="editedItem.Title"
                 ></v-text-field>
                   </v-col>
@@ -91,19 +91,77 @@
                     md="4"
                   >
                     <v-text-field
-                      label="شماره پرونده*"
-                      v-model="editedItem.Number"
-                       hint="لطفا شماره  پرونده  را وارد کنید"
+                      label=" معبر"
+                      type="number"
+                      v-model="editedItem.Crossing"
+                      suffix="متری"
                     ></v-text-field>
                   </v-col>
-              <v-col
+                    <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-select
+                  :items="[
+                  { text: 'صنعتی', value: 1 } , { text: 'تجاری', value: 2 }, { text: 'کشاورزی ', value: 3 } , { text: 'مسکونی ', value: 4 } ]"
+                  v-model="editedItem.OghafCostType"
+                  label="نوع کاربری"
+                ></v-select>
+                  </v-col>
+                   <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      label=" ارزش معاملاتی"
+                      v-model="editedItem.TradingValue"
+                      suffix="  تومان  "
+                    ></v-text-field>
+                  </v-col>
+                   <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      label="  مساحت"
+                      v-model="editedItem.Area"
+                      suffix="متر"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      label=" مال الاجاره"
+                      v-model="editedItem.RentProperty"
+                      suffix="  تومان  "
+                    ></v-text-field>
+                  </v-col>
+                   <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      label=" تصویب"
+                      type="number"
+                      v-model="editedItem.ConfirmDate"
+                      prefix="  سال  "
+                    ></v-text-field>
+                  </v-col>
+                   <v-col
                 cols="12"
                 sm="4"
               >
               <v-switch
                color="blue"
               v-model="editedItem.IsActive"
-              :label="`وضعیت پوشه: ${editedItem.IsActive}`"
+              :label="`وضعیت تعرفه: ${editedItem.IsActive}`"
               ></v-switch>
               </v-col>
               <v-col
@@ -111,26 +169,15 @@
         md="12"
       >
         <v-textarea
-          name="input-7-1"
-          label="توضیحات پرونده "
+          name="input-2-1"
+          label="توضیحات"
           v-model="editedItem.Description"
           value=""
         ></v-textarea>
-         <v-col
-              cols="12"
-                sm="12"
-                md="12"
-                >
-                <v-text-field
-                  label="آدرس فیزیکی"
-                  v-model="editedItem.PhysicalAddress"
-                ></v-text-field>
-              </v-col>
-      </v-col>
+          </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -159,7 +206,7 @@
         max-width="500px"
         >
           <v-card>
-            <v-card-title class="headline">آیا از حذف نامه {{ editedItem.FullName }} مطمئن هستید؟</v-card-title>
+            <v-card-title class="headline">آیا از حذف تعرفه {{ editItem.Title }} مطمئن هستید؟</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -183,23 +230,6 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <router-link
-        :to="{
-          name: 'مدیریت پرونده',
-          params: { Id: item.Id },
-        }"
-      >
-        <v-btn
-      class="mx-2"
-      fab
-      small
-      color="warning"
-    >
-      <v-icon dark>
-        mdi-open-in-new
-      </v-icon>
-    </v-btn>
-      </router-link>
        <v-btn
       class="mx-2"
       fab
@@ -220,17 +250,6 @@
     >
       <v-icon dark>
         mdi-delete
-      </v-icon>
-    </v-btn>
-    <v-btn
-      class="mx-2"
-      fab
-      small
-      @click="OpenFolderItem(item)"
-      color="success"
-    >
-      <v-icon dark>
-        mdi-open-in-app
       </v-icon>
     </v-btn>
     </template>
@@ -254,32 +273,41 @@
       dialog: false,
       dialogDelete: false,
       search: '',
-      Number: '',
+      Crossing: '',
       IsActive: true,
-      // InsertDateTime: new Date().toISOString().substr(0, 10),
       Title: '',
-      PhysicalAddress: '',
+      Area: '',
+      RentProperty: '',
+      TradingValue: '',
+      OghafCostType: 1,
+      ConfirmDate: '',
       Description: '',
       menu: false,
-      menuexpiretime: false,
       modal: false,
       menu2: false,
       headers: [
         { text: 'ردیف', value: 'radif' },
-        { text: ' عنوان پوشه', value: 'Title' },
-        { text: 'شماره پرونده', value: 'Number' },
+        { text: 'عنوان', value: 'Title' },
+        { text: 'معبر', value: 'Crossing' },
+        { text: 'نوع کاربری', value: 'OghafCostType' },
+        { text: 'سال تصویب ', value: 'ConfirmDate' },
+        { text: 'ارزش معاملاتی ', value: 'TradingValue' },
+        { text: 'مال الاجاره  ', value: 'RentProperty' },
+        { text: 'تا مساحت ', value: 'Area' },
         { text: 'توضیحات', value: 'Description' },
-        { text: 'آدرس قفسه', value: 'PhysicalAddress' },
         { text: 'فعالیت', value: 'actions' },
       ],
       editedIndex: -1,
       editedItem: {
-        Number: '',
+        Crossing: '',
         IsActive: true,
-        // InsertDateTime: new Date().toISOString().substr(0, 10),
         Title: '',
-        PhysicalAddress: '',
+        OghafCostType: 1,
+        ConfirmDate: '',
         Description: '',
+        RentProperty: '',
+        TradingValue: '',
+        Area: '',
         menu: false,
       },
       defaultItem: {
@@ -293,10 +321,10 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'تشکیل پرونده' : 'ویرایش پرونده'
+        return this.editedIndex === -1 ? 'تعرفه جدید' : 'ویرایش تعرفه'
       },
-      GetAllFolders () {
-        return this.$store.getters.GetAllFolders
+      GetAllOghafCosts () {
+        return this.$store.getters.GetAllOghafCosts
       },
     },
 
@@ -315,32 +343,27 @@
 
     methods: {
       initialize () {
-        this.$store.dispatch('GetAllFoldersFromServer')
+        this.$store.dispatch('GetAllOghafCostsFromServer')
       },
 
       editItem (item) {
-        const result = this.GetAllFolders.find(s => {
+        const result = this.GetAllOghafCosts.find(s => {
           return s.Id === item.Id
         })
-        this.editedIndex = this.GetAllFolders.indexOf(item)
+        this.editedIndex = this.GetAllOghafCosts.indexOf(item)
         this.editedItem = Object.assign({}, result)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.GetAllFolders.indexOf(item)
+        this.editedIndex = this.GetAllOghafCosts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
-      OpenFolderItem (item) {
-        this.$store.dispatch('OpenFolderFromServer', item)
-      },
-      // FolderDetail (item) {
-      //   this.$store.dispatch('OpenFolderFromServer', item)
-      // },
+
       deleteItemConfirm () {
-        this.GetAllFolders.splice(this.editedIndex, 1)
-        this.$store.dispatch('DeleteFolderFromServer', this.editedItem.Id)
+        this.GetAllOghafCosts.splice(this.editedIndex, 1)
+        this.$store.dispatch('DeleteLetterFromServer', this.editedItem.Id)
         this.initialize()
         this.closeDelete()
       },
@@ -364,22 +387,37 @@
 
       save () {
         if (this.editedIndex > -1) {
-          this.$store.dispatch('UpdateFolderFromServer', this.editedItem)
-          this.initialize()
-          Object.assign(this.GetAllFolders[this.editedIndex], this.editedItem)
-        } else {
-          const folder = {
-            Number: this.editedItem.Number,
-            InsertDateTime: this.editedItem.InsertDateTime,
-            Title: this.editedItem.Title,
-            PhysicalAddress: this.editedItem.PhysicalAddress,
+          const pofile = {
+            Crossing: parseInt(this.editedItem.Crossing),
+            Id: this.editedItem.Id,
             IsActive: this.editedItem.IsActive,
+            Title: this.editedItem.Title,
+            OghafCostType: this.editedItem.OghafCostType,
+            ConfirmDate: parseInt(this.editedItem.ConfirmDate),
             Description: this.editedItem.Description,
+            TradingValue: parseInt(this.editedItem.TradingValue),
+            RentProperty: parseInt(this.editedItem.RentProperty),
+            Area: this.editedItem.Area,
           }
-          this.editedItem = folder
-          this.$store.dispatch('CreateFolderByForm', this.editedItem)
+          this.$store.dispatch('UpdateOghafCostFromServer', pofile)
           this.initialize()
-          this.GetAllFolders.push(this.editedItem)
+          Object.assign(this.GetAllOghafCosts[this.editedIndex], this.editedItem)
+        } else {
+          const pofile = {
+            Crossing: parseInt(this.editedItem.Crossing),
+            IsActive: this.editedItem.IsActive,
+            Title: this.editedItem.Title,
+            OghafCostType: this.editedItem.OghafCostType,
+            ConfirmDate: parseInt(this.editedItem.ConfirmDate),
+            Description: this.editedItem.Description,
+            TradingValue: parseInt(this.editedItem.TradingValue),
+            RentProperty: parseInt(this.editedItem.RentProperty),
+            Area: this.editedItem.Area,
+          }
+          this.editedItem = pofile
+          this.$store.dispatch('CreateOghafCostByForm', pofile)
+          this.initialize()
+          // this.GetAllOghafCosts.push(this.editedItem)
         }
         this.close()
       },

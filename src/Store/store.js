@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import User from './Modules/Users'
 import Letter from './Modules/Letters'
 import Folder from './Modules/Folders'
+import OghafCost from './Modules/OghafCost'
+import FolderAndUser from './Modules/FolderAndUser'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -20,5 +22,5 @@ export default new Vuex.Store({
       state.drawer = payload
     },
   },
-  modules: { User, Letter, Folder },
+  modules: { User, Letter, Folder, OghafCost, FolderAndUser },
 })
