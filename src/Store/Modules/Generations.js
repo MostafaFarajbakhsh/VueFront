@@ -2,69 +2,32 @@ import Vue from 'vue'
 import { router } from '../../main'
 
 const state = {
-  Users: [],
-  User: {},
+  Generations: [],
+  Generation: {},
 }
 const getters = {
-  GetAllUsers (state) {
-    return state.Users
+  GetAllGenerations (state) {
+    return state.Generations
   },
-  GetUser (state) {
-    return state.User
+  GetGeneration (state) {
+    return state.Generation
   },
 }
 const mutations = {
-  SetAllUsers (state, Users) {
-    state.Users = Users
+  SetAllGenerations (state, Generations) {
+    state.Generations = Generations
   },
-  SetUser (state, user) {
-    state.User = user.Data
+  SetGeneration (state, Generation) {
+    state.Generation = Generation.Data
   },
 }
 const actions = {
-  SignUpUserByForm (context, User) {
-    Vue.http.post('Users', User)
+  CreateGenerationByForm (context, Generation) {
+    Vue.http.post('Generations', Generation)
     .then(response => {
       return response.json()
     })
     .then(data => {
-    if (data.IsSuccessful === true) {
-      if (data.InformationMessages !== null) {
-        data.InformationMessages.forEach(element => {
-          this._vm.$toast.success(
-            element,
-            {
-              position: 'bottom-right',
-            },
-          )
-        })
-      }
-    } else {
-      if (data.ErrorMessages !== null) {
-        data.ErrorMessages.forEach(element => {
-          this._vm.$toast.error(element, {
-            position: 'bottom-right',
-          })
-        })
-      }
-      if (data.AddInformationMessage !== null) {
-        data.AddInformationMessage.forEach(element => {
-          this._vm.$toast.warning(element, {
-            position: 'bottom-right',
-          })
-        })
-      }
-    }
-  })
-  },
-  LoginByForm (context, User) {
-    Vue.http
-      .post('Users/Login', User)
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        context.commit('SetUser', data)
       if (data.IsSuccessful === true) {
         if (data.InformationMessages !== null) {
           data.InformationMessages.forEach(element => {
@@ -76,7 +39,7 @@ const actions = {
             )
           })
         }
-        router.push('/dashboard')
+        router.push('/Dashboard/Generations')
       } else {
         if (data.ErrorMessages !== null) {
           data.ErrorMessages.forEach(element => {
@@ -88,9 +51,8 @@ const actions = {
       }
     })
   },
-  GetAllUsersFromServer (context) {
-    Vue.http
-      .get('Users')
+  GetAllGenerationsFromServer (context) {
+    Vue.http.get('Generations')
       .then(response => {
         if (response.status === 200) {
           return response.json()
@@ -102,11 +64,11 @@ const actions = {
         }
       })
       .then(data => {
-        context.commit('SetAllUsers', data)
+        context.commit('SetAllGenerations', data)
       })
   },
-  UpdateUserFromServer (Context, UpdateUser) {
-    Vue.http.patch('Users', UpdateUser)
+  UpdateGenerationFromServer (Context, UpdateGeneration) {
+    Vue.http.patch('Generations', UpdateGeneration)
     .then(response => {
       return response.json()
     })
@@ -133,49 +95,82 @@ const actions = {
       }
     })
   },
-  GetUserFromServer (context, Username) {
-    Vue.http
-    .get('Users/GetUser', Username)
+  GetGenerationFromServer (context, Id) {
+    Vue.http.get('Generations/' + Id.Id)
     .then(response => {
       if (response.status === 200) {
         return response.json()
       }
     })
     .then(data => {
-      context.commit('SetUser', data)
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
+          })
+        }
+        context.commit('SetGeneration', data)
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+      }
     })
   },
-  DeleteUserFromServer (context, user) {
-    Vue.http.delete('Users/' + user.Id)
+  DeleteGenerationFromServer (context, Id) {
+    Vue.http.delete('Generations/' + Id)
     .then(response => {
       return response.json()
     })
     .then(data => {
-    if (data.IsSuccessful === true) {
-      if (data.InformationMessages !== null) {
-        data.InformationMessages.forEach(element => {
-          this._vm.$toast.success(
-            element,
-            {
-              position: 'bottom-right',
-            },
-          )
-        })
-      }
-      router.push('/dashboard/users')
-    } else {
-      if (data.ErrorMessages !== null) {
-        data.ErrorMessages.forEach(element => {
-          this._vm.$toast.error(element, {
-            position: 'bottom-right',
+      if (data.IsSuccessful === true) {
+        if (data.InformationMessages !== null) {
+          data.InformationMessages.forEach(element => {
+            this._vm.$toast.success(
+              element,
+              {
+                position: 'bottom-right',
+              },
+            )
           })
-        })
+        }
+        router.push('/dashboard/Generations')
+      } else {
+        if (data.ErrorMessages !== null) {
+          data.ErrorMessages.forEach(element => {
+            this._vm.$toast.error(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
+        if (data.WarningMessages !== null) {
+          data.WarningMessages.forEach(element => {
+            this._vm.$toast.warning(element, {
+              position: 'bottom-right',
+            })
+          })
+        }
       }
-    }
-  })
+    })
   },
-  OpenUserFolderFromServer (context, User) {
-    Vue.http.post('Users/OpenFolder', User)
+  OpenGenerationFromServer (context, Generation) {
+    Vue.http.post('Generations/OpenGeneration', Generation)
     .then(response => {
       return response.json()
     })

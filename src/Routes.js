@@ -19,7 +19,28 @@ export const Routes = [
       {
         name: 'داشبورد',
         path: '',
-        component: () => import('@/views/dashboard/Dashboard'),
+        component: () => import('@/views/dashboard/pages/Dashboard/Dashboard'),
+      },
+       // Dashboard
+       {
+        name: 'کاربران',
+        path: '/dashboard/users',
+        component: () => import('@/views/dashboard/pages/Dashboard/Pages/UserProfiles'),
+      },
+      {
+        name: 'متولیان',
+        path: '/dashboard/generations',
+        component: () => import('@/views/dashboard/pages/Dashboard/Pages/Generations'),
+      },
+      {
+        name: 'پرونده ها',
+        path: '/dashboard/folders',
+        component: () => import('@/views/dashboard/pages/Dashboard/Pages/UserFolders'),
+      },
+      {
+        name: 'نامه ها',
+        path: '/dashboard/letters',
+        component: () => import('@/views/dashboard/pages/Dashboard/Pages/Letters'),
       },
       // Pages
       {
@@ -45,19 +66,19 @@ export const Routes = [
       // Tables Users
       {
         name: 'مدیریت کاربران',
-        path: 'users',
+        path: 'manageusers',
         component: () => import('@/views/dashboard/tables/UserTables'),
       },
       // Tables Letters
       {
         name: 'مدیریت نامه ها',
-        path: 'letters',
+        path: 'manageletters',
         component: () => import('@/views/dashboard/tables/LetterTables'),
       },
       // Tables Folders
       {
         name: 'مدیریت پرونده ها',
-        path: 'folders',
+        path: 'managefolders',
         component: () => import('@/views/dashboard/tables/FolderTables'),
         // children: [
         //   {
@@ -75,14 +96,20 @@ export const Routes = [
       },
       {
         name: 'مدیریت تعرفه اوقاف',
-        path: 'oghafcosts',
+        path: 'manageoghafcosts',
         component: () => import('@/views/dashboard/tables/OghafCostTables'),
       },
       // Tables Parts
       {
         name: 'مدیریت قطعات زمین',
-        path: 'parts',
+        path: 'manageparts',
         component: () => import('@/views/dashboard/tables/PartTables'),
+      },
+      // Tables Gen
+      {
+        name: ' نسل سفیداری ',
+        path: 'managegenerations',
+        component: () => import('@/views/dashboard/tables/GeneretaionTables'),
       },
       // Maps
       {

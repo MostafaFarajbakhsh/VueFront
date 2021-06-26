@@ -2,15 +2,15 @@ import Vue from 'vue'
 // import { router } from '../../main'
 
 const state = {
-  // Folders: [],
+  FolderAndUsers: [],
   // Folder: {},
   UsersByFolderId: [],
   UserByFolderId: {},
 }
 const getters = {
-  // GetAllFolders (state) {
-  //   return state.Folders
-  // },
+  GetAllFolderAndUsers (state) {
+    return state.FolderAndUsers
+  },
   // GetFolder (state) {
   //   return state.Folder
   // },
@@ -22,9 +22,9 @@ const getters = {
   },
 }
 const mutations = {
-  // SetAllFolders (state, Folders) {
-  //   state.Folders = Folders
-  // },
+  SetAllFolderAndUsers (state, FolderAndUsers) {
+    state.FolderAndUsers = FolderAndUsers
+  },
   // SetFolder (state, Folder) {
   //   state.Folder = Folder.Data
   // },
@@ -69,6 +69,23 @@ const actions = {
           })
         }
       }
+    })
+  },
+  GetAllFolderAndUsersFromServer (context) {
+    Vue.http.get('FolderAndUser')
+    .then(response => {
+      if (response.status === 200) {
+        return response.json()
+      }
+      if (response.status === 200) {
+        this._vm.$toast.success('متصرفان پرونده با موفقیت باز یابی شد', {
+          position: 'bottom-right',
+        })
+      }
+    })
+    .then(data => {
+      console.log(data)
+      context.commit('SetAllFolderAndUsers', data)
     })
   },
   GeUsersByFolderIdFromServer (context, Id) {

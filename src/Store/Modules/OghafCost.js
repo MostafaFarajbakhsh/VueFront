@@ -75,13 +75,11 @@ const actions = {
       })
   },
   UpdateOghafCostFromServer (Context, UpdateOghafCost) {
-    console.log(UpdateOghafCost)
     Vue.http.patch('OghafCost', UpdateOghafCost)
     .then(response => {
       return response.json()
     })
     .then(data => {
-      console.log(data)
       if (data.IsSuccessful === true) {
         if (data.InformationMessages !== null) {
           data.InformationMessages.forEach(element => {

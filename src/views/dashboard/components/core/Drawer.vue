@@ -116,27 +116,32 @@
         {
           title: 'rtablesuser',
           icon: 'mdi-account-group',
-          to: '/dashboard/users',
+          to: '/dashboard/manageusers',
         },
         {
           title: 'rtablesletter',
           icon: 'mdi-email',
-          to: '/dashboard/letters',
+          to: '/dashboard/manageletters',
         },
         {
           title: 'rtablesfolder',
           icon: 'mdi-folder-account',
-          to: '/dashboard/folders',
+          to: '/dashboard/managefolders',
         },
         {
           title: 'rtablespart',
           icon: 'mdi-home-city',
-          to: '/dashboard/parts',
+          to: '/dashboard/manageparts',
         },
         {
           title: 'rtablesoghafcost',
           icon: 'mdi-wallet',
-          to: '/dashboard/oghafcosts',
+          to: '/dashboard/manageoghafcosts',
+        },
+        {
+          title: 'rtablesgen',
+          icon: 'mdi-gender-male-female',
+          to: '/dashboard/managegenerations',
         },
         {
           title: 'typography',

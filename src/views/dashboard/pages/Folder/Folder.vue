@@ -75,6 +75,15 @@
               Complete your profile
             </div> -->
           </template>
+          <v-autocomplete
+                  :items="GetAllUsers"
+                  v-model="editedItem.PreGenId"
+                  item-text="FullName"
+                  item-value="Id"
+                  auto-select-first
+                  clearable
+                  label="فرزند"
+                ></v-autocomplete>
           <v-data-table
             :headers="headers"
             :items="GetAllUsers"
