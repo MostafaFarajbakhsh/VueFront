@@ -79,8 +79,9 @@
                 md="4"
               >
                 <v-text-field
-                  label="عنوان نامه *"
+                  label="عنوان قطعه"
                   v-model="editedItem.Title"
+                   hint="لطفا عنوان  قطعه  را وارد کنید"
                 ></v-text-field>
                   </v-col>
                   <v-col
@@ -89,172 +90,143 @@
                     md="4"
                   >
                     <v-text-field
-                      label="شماره نامه*"
+                      label="شماره قطعه"
                       v-model="editedItem.LetterNumber"
-                       hint="لطفا شماره  نامه  را وارد کنید"
+                       hint="لطفا شماره  قطعه  را وارد کنید"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+                    <v-text-field
+                      label="متراژ قطعه"
+                      v-model="editedItem.LetterNumber"
+                       hint="لطفا متراژ  قطعه  را وارد کنید"
                     ></v-text-field>
                   </v-col>
                     <v-col
                 cols="12"
                 sm="6"
-                md="4"
-              >
-                <v-select
-                  :items="[
-                  { text: 'نامه ارسالی', value: 1 } , { text: 'نامه دریافتی', value: 2 }, { text: 'نامه نامشخض ', value: 3 } ]"
-                  v-model="editedItem.Transfer"
-                  label="وضعیت نامه*"
-                ></v-select>
-                  </v-col>
-                  <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-select
-                  :items="[
-                  { text: 'ثبت اسناد', value: 1 } , { text: 'اوقاف', value: 2 }, { text: 'احضاریه ', value: 3 }, { text: 'اطلاعیه', value: 4 }, { text: 'بلامانه', value: 5 } ]"
-                  v-model="editedItem.Type"
-                  label="نوع نامه*"
-                ></v-select>
-                  </v-col>
-                  <v-col
-                cols="12"
-                sm="6"
-                md="4"
+                md="3"
               >
                 <v-text-field
-                  label="*ارسال کننده"
-                  v-model="editedItem.SenderLetter"
-                  hint="لطفا ارسال کننده نامه  را وارد کنید"
+                  label="شمالاً"
+                  v-model="editedItem.Title"
                 ></v-text-field>
                   </v-col>
-                  <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
+                    <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <v-text-field
+                  label="شرقاً"
+                  v-model="editedItem.Title"
+                ></v-text-field>
+                  </v-col>
+                    <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <v-text-field
+                  label="جنوباً"
+                  v-model="editedItem.Title"
+                ></v-text-field>
+                  </v-col>
+                    <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <v-text-field
+                  label="غرباً"
+                  v-model="editedItem.Title"
+                ></v-text-field>
+                  </v-col>
+                   <v-col
+              cols="3"
+                sm="3"
+                md="3"
                 >
-                  <v-text-field
-                    label="دریافت کننده"
-                    v-model="editedItem.ReciverLetter"
-                    hint="لطفا دریافت کننده نامه  را وارد کنید"
-                  ></v-text-field>
+                <v-checkbox
+      v-model="IsSanati"
+      :label="`صنعتی: `"
+    ></v-checkbox>
+              </v-col>
+                  <v-col
+              cols="3"
+                sm="3"
+                md="3"
+                >
+                <v-checkbox
+      v-model="IsZeraei"
+      :label="`مزروعی: `"
+    ></v-checkbox>
+              </v-col>
+                   <v-col
+              cols="3"
+                sm="3"
+                md="3"
+                >
+                <v-checkbox
+      v-model="IsTejari"
+      :label="`تجاری: `"
+    ></v-checkbox>
+              </v-col>
+                   <v-col
+              cols="3"
+                sm="3"
+                md="3"
+                >
+                <v-checkbox
+      v-model="IsMaskooni"
+      :label="`مسکونی: `"
+    ></v-checkbox>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+               <v-file-input
+                v-model="utm1"
+                show-size
+                truncate-length="30"
+                label="UTM1"
+                outlined
+                dense
+              ></v-file-input>
                   </v-col>
                   <v-col
                     cols="12"
                     sm="6"
                     md="4"
                   >
-                    <v-text-field
-                      label="متن احترامی"
-                      v-model="editedItem.RespectText"
-                      hint="لطفا متن احتذام را وارد کنید"
-                    ></v-text-field>
+                     <v-file-input
+                v-model="utm2"
+                show-size
+                truncate-length="30"
+                label="UTM2"
+                outlined
+                dense
+              ></v-file-input>
                   </v-col>
                   <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-menu
-                    ref="menu"
-                    v-model="editedItem.menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="DateTimeLetter"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
+                    cols="12"
+                    sm="6"
+                    md="4"
                   >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="editedItem.DateTimeLetter"
-                        label="تاریخ نامه"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        :first-day-of-week="0"
-                        locale="ir-fa"
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="editedItem.DateTimeLetter"
-                      no-title
-                      scrollable
-                    >
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="error"
-                        @click="menu = false"
-                      >
-                        انصراف
-                      </v-btn>
-                      <v-btn
-                        color="success"
-                        @click="$refs.menu.save(editedItem.DateTimeLetter)"
-                      >
-                        ثبت
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                  </v-col>
-                   <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-switch
-               color="blue"
-              v-model="editedItem.IsExpirable"
-              :label="`وضعیت انقضای نامه: ${editedItem.IsExpirable != true}`"
-              ></v-switch>
-                  </v-col>
-                  <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-menu
-                    ref="menuexpiretime"
-                    v-model="editedItem.menuexpiretime"
-                    :close-on-content-click="false"
-                    :return-value.sync="ExpireDateTime"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="editedItem.ExpireDateTime"
-                        label="تاریخ انقضای نامه"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        :first-day-of-week="0"
-                        locale="ir-fa"
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="editedItem.ExpireDateTime"
-                      no-title
-                      scrollable
-                    >
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="error"
-                        @click="menuexpiretime = false"
-                      >
-                        انصراف
-                      </v-btn>
-                      <v-btn
-                        color="success"
-                        @click="$refs.menuexpiretime.save(editedItem.ExpireDateTime)"
-                      >
-                        ثبت
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
+                     <v-file-input
+                v-model="utm3"
+                show-size
+                truncate-length="30"
+                label="UTM3"
+                outlined
+                dense
+              ></v-file-input>
                   </v-col>
                <v-col
               cols="12"
@@ -262,7 +234,7 @@
                 md="12"
                 >
                 <v-text-field
-                  label="آدرس"
+                  label="آدرس قطعه"
                   v-model="editedItem.Address"
                 ></v-text-field>
               </v-col>
@@ -272,7 +244,7 @@
       >
         <v-textarea
           name="input-7-1"
-          label="متن نامه"
+          label="توضیحات قطعه"
           v-model="editedItem.Description"
           value=""
         ></v-textarea>
@@ -414,6 +386,10 @@
   export default {
     data: () => ({
       dialog: false,
+      IsSanati: true,
+      IsTejari: false,
+      IsZeraei: false,
+      IsMaskooni: false,
       dialogDelete: false,
       search: '',
       LetterNumber: '',
